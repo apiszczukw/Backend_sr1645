@@ -17,6 +17,7 @@ namespace Backend_sr1645.Controllers
             this.db = db;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var produkty = db.Products.ToList();
@@ -25,10 +26,57 @@ namespace Backend_sr1645.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(Product product)
         {
-            return View();
+            if(product.Id > 0)
+            {
+                db.Products.Update(product);
+            }
+            else
+            {
+                db.Products.Add(product);
+            }
+
+
+            db.SaveChanges();
+
+			var produkty = db.Products.ToList();
+			ViewBag.products = produkty;
+
+			return View();
         }
+
+        public IActionResult Edit(int id)
+        {
+            var product = new Product();
+
+            if(id > 0)
+            {
+                product = db.Products.Find(id);
+            }
+
+            return View(product);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var produkt = db.Products.Find(id);
+
+            if(produkt != null)
+            {
+                db.Products.Remove(produkt);
+                db.SaveChanges();
+            }
+
+			var produkty = db.Products.ToList();
+			ViewBag.products = produkty;
+
+			return View("Index");
+        }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

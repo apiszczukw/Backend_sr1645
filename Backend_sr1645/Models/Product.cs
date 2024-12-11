@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend_sr1645.Models
 {
@@ -18,5 +19,8 @@ namespace Backend_sr1645.Models
         public string Name { get; set; }
 
         public float? Price { get; set; }
+
+        [DefaultValue(0)]
+        public int Quantity { get; set; }
     }
 }
